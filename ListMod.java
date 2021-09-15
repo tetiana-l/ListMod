@@ -4,8 +4,6 @@ import java.util.*;
 
 public class ListMod {
 
-    static final int maxStringLength = 4;
-
     public static void main(String[] args) {
 
         List<String> list = new ArrayList<>();
@@ -19,13 +17,13 @@ public class ListMod {
 
         List<String> revertedList1 = revertListVersion1(list);
         List<String> revertedList2 = revertListVersion2(list);
-        List<String> listWithShortStrings = deleteStringsLongerGivenLength(list);
+        List<String> listWithShortStrings = deleteStringsLongerGivenLength(list, 4);
         List<String> uniqueListSet = deleteDuplicateElemsWithSet(list);
         List<String> uniqueListNoSet = deleteDuplicateElemsWithoutSet(list);
 
         System.out.println("Reverted list 1st version: " + revertedList1
                 + "\nReverted list 2nd version: " + revertedList2
-                + "\nList with elems.length < 4: " + listWithShortStrings
+                + "\nList with elems.length <= 4: " + listWithShortStrings
                 + "\nUnique list using set: " + uniqueListSet
                 + "\nUnique list without using set: " + uniqueListNoSet);
 
@@ -52,12 +50,11 @@ public class ListMod {
         return list1;
     }
 
-    private static List<String> deleteStringsLongerGivenLength(List<String> list) {
+    private static List<String> deleteStringsLongerGivenLength(List<String> list, int maxStringLength) {
         List<String> list1 = new ArrayList<>();
-        for (int i = 0, j = 0; i < list.size(); i++) {
-            if (list.get(i).length() < maxStringLength) {
-                list1.add(j, list.get(i));
-                j++;
+        for (String string : list) {
+            if (string.length() <= maxStringLength) {
+                list1.add(string);
             }
         }
         return list1;
@@ -65,17 +62,14 @@ public class ListMod {
 
     private static List<String> deleteDuplicateElemsWithSet(List<String> list) {
         Set<String> set = new LinkedHashSet<>(list);
-        list.clear();
-        list.addAll(set);
-        return list;
+        return new ArrayList<>(set);
     }
 
     private static List<String> deleteDuplicateElemsWithoutSet(List<String> list) {
         List<String> list1 = new ArrayList<>();
-        for (int i = 0, j = 0; i < list.size(); i++) {
-            if (!list1.contains(list.get(i))) {
-                list1.add(j, list.get(i));
-                j++;
+        for (String string : list) {
+            if (!list1.contains(string)) {
+                list1.add(string);
             }
         }
         return list1;
